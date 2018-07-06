@@ -1,239 +1,161 @@
 ---
 title: API Reference
 
-language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
-  - python
-  - javascript
+language_tabs:
+  - example
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
-
-includes:
-  - errors
+  - <a href='https://bandprotocol.com'>BAND Protocol Website</a>
 
 search: true
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to Band Protocol Core API. This document aims to explain the native
+blockchain message protocol that ones can use to communicate directly with
+Band Protocol nodes via [JSON RPC](https://www.jsonrpc.org/specification)
+without passing through another layer of client-side libraries.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+Band Protocol is still in pre-alpha development. Any of the following APIs
+can change without notice.
 
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+# Primitives
 
-# Authentication
-
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
+## Public-Private Keypairs
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  "vk": "6ddb22994b551f4da5818e7a257d467e9af753348194f31dddc5f9aa489d3da1"
+  "sk": "db3d48411f6e41a7e6b903e9dd64c453f98a7133613464a1b1567cffe0c6b5956ddb22994b551f4da5818e7a257d467e9af753348194f31dddc5f9aa489d3da1"
 }
 ```
 
-This endpoint retrieves a specific kitten.
+Band Protocol uses the [Ed25519](https://ed25519.cr.yp.to/) cryptographic
+algorithm to generate keypairs. Every message broadcasted to the blockchain
+must be suffixed with 64 bytes Ed25519 signature to verify the sender's
+identity. To avoid potentional confusion on abbreviation, Band Protocol uses
+the term "Verify Key" (vk) to refer to Ed25519 public key and "Secret Key" (sk)
+to refer to private key.
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
+## Addresses
 
 ```json
 {
-  "id": 2,
-  "deleted" : ":("
+  "vk": "6ddb22994b551f4da5818e7a257d467e9af753348194f31dddc5f9aa489d3da1"
+  "addr_raw": "26daad0c2f2dae34db0f5f6f79e56486055732bc",
+  "addr_iban": "AX76 E5PL 4DBR FYZD KY2R M7ZZ V3ME S2CX QNX6"
 }
 ```
 
-This endpoint deletes a specific kitten.
+An address is a 20-byte data to specify an object on the blockchain. Within
+a raw transaction, an address is represented using big-endian raw format.
+Alternatively, an address can be expressed in the [ISO-standard IBAN format]
+(https://en.wikipedia.org/wiki/International_Bank_Account_Number) with 32
+alphanumeric digits for account number.
 
-### HTTP Request
+`PPCC XXXX XXXX XXXX XXXX XXXX XXXX XXXX XXXX`
 
-`DELETE http://example.com/kittens/<ID>`
+where `PP` is the prefix specified below, `CC` is the checksum digits, and
+`XXXX...` is the base 32 encode of the actual 20-byte address. Note that
+`0`, `1`, `I`, and `O` are omitted from the encoding to avoid confusion.
 
-### URL Parameters
+There are two kinds of addresses in Band Protocol:
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
+1. Account address use for storing any kinds of tokens in the blockchain. This
+address can be computed by taking the first 20 bytes of SHA256 hash of the
+public key. The IBAN prefix is `AX`.
 
+2. Contract address use for specifying community or product token contracts.
+This address can be computed by taking the first 20 bytes of the hash of
+the transaction at which the contract is created. The IBAN prefix is `BX`.
+
+## Unsigned Integer Varint Encoding
+
+```python
+encode(130 : uint8_t) = 0x82
+encode(1000000000000 : uint256_t) = 0x80a094a58d1d
+```
+
+1 byte unsigned integers (uint8_t) are encoded using its one byte raw format.
+For larger integers, however, Band Protocol uses [base 128 varint encoding]
+(https://developers.google.com/protocol-buffers/docs/encoding#varints) to
+save transaction size.
+
+# RPC Server
+
+Band Protocol runs of top of [Tendermint](https://tendermint.com/). Thus,
+the way to communicate with Band Protocol nodes is similar to Tendermint.
+See [Tendermint RPC documentation](https://tendermint.github.io/slate/) for
+more information.
+
+# Transaction Message Layout
+
+This section describes the transaction format that can be broadcasted to
+Band Protocol blockchain via `BroadcastTxAsync`, `BroadcastTxCommit`, or
+`BroadcastTxSync` RPC calls. Every message consists of three major components.
+
+1. Message Header. This is a fixed size structure similar on every message
+type. See below for details.
+2. Message Body. This is different depending on the message type. See below
+for details.
+3. Message Signature. This is 64-byte Ed25519 signature of the whole message
+, excluding this signature. The signature must correspond to the verify key
+provided in the message header.
+
+## Message Header
+
+Field Name | Type | Description
+-------------- | -------------- | --------------
+MsgID | uint16_t | The type of this message
+Timestamp | uint64_t | The time (ms epoch) at which this message is created
+VerifyKey | 32 bytes | The verify key of the message sender
+
+## MintMsg
+
+Mint Message allows anyone to mint any token. This message will be available
+only on testnet to facilitate blockchain testing.
+
+Field Name | Type | Description
+-------------- | -------------- | --------------
+TokenKey | 20 bytes | The key of the token to mint
+Value | uint256_t | The amount of token to mint
+
+## TxMsg
+
+Tx Message allows anyone to send their token to any address. This transaction
+will fail if the sender does not have enough token to send.
+
+Field Name | Type | Description
+-------------- | -------------- | --------------
+TokenKey | 20 bytes | The key of the token to mint
+Destination | 20 bytes | The address to send the token to
+Value | uint256_t | The amount of token to mint
+
+## CreateMsg
+
+Create Msg allows anyone to create a community token contract with continuous
+bonding curve.
+
+Field Name | Type | Description
+-------------- | -------------- | --------------
+Curve | equation | The continuous bonding curve to create
+
+TODO: Explain how equation is encoded
+
+## PurchaseMsg
+
+Purchase Msg allows anyone to buy community token from the contract. The price
+is determined by the bonding curve and the current token supply.
+
+
+Field Name | Type | Description
+-------------- | -------------- | --------------
+ContractID | 20 bytes | The address of the contract to purchase token
+Value | uint256_t | The number of community token to purchase
+Limit | uint256_t | The max amount of BAND the sender is willing to pay
+
+
+# ABCI Queries
+
+TODO

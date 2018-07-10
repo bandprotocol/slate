@@ -17,7 +17,8 @@ blockchain message protocol that ones can use to communicate directly with
 Band Protocol nodes via [JSON RPC](https://www.jsonrpc.org/specification)
 without passing through another layer of client-side libraries.
 
-Band Protocol is still in its pre-alpha development phase. Any of the following
+Band Protocol is still in its pre-alpha development phase. You can reach
+the testnet node at `testnet.bandprotocol.com:26657` Any of the following
 APIs can change without notice.
 
 # Primitives
@@ -59,6 +60,9 @@ alphanumeric digits for account number.
 where `PP` is the prefix specified below, `CC` is the checksum digits, and
 `XXXX...` is the base 32 encode of the actual 20-byte address. Note that
 `0`, `1`, `I`, and `O` are omitted from the encoding to avoid confusion.
+In other words, the characters are ordered as follows:
+`ABCDEFGHJKLMNPQRSTUVWXYZ23456789`, where `A` is encoded to 0 and `9` is
+encoded to 31.
 
 There are two kinds of addresses in Band Protocol:
 
@@ -69,7 +73,17 @@ public key. The IBAN prefix is `AX`.
 2. Contract address for specifying community or product token contracts.
 This address can be computed by taking the first 20 bytes of the hash of
 the transaction at which the contract is created. The IBAN prefix is `BX`.
-Band native token uses zero address as its address.
+Band native token uses the zeroth address `BX63 AAAA AAAA AAAA AAAA AAAA AAAA AAAA AAAA`
+as its special address.
+
+## Mnemonic Code
+
+The Band Protocol official client will use the standard
+[BIP-0039](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki)
+mnemonic method to generate a secret key from a 24-word list without a password.
+The top 32 bytes of the secret key is the mnemonic seed. The bottom 32 bytes of
+the secret key is generated through the Ed25519 key generation process
+(essentially is the corresponding verify key).
 
 ## Unsigned Integer Varint Encoding
 

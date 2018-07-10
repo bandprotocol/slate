@@ -42,9 +42,9 @@ uses the term "Verify Key" (vk) to refer to Ed25519 public key and "Secret Key"
 
 ```python
 {
-  "vk": "6ddb22994b551f4da5818e7a257d467e9af753348194f31dddc5f9aa489d3da1"
-  "addr_hex": "26daad0c2f2dae34db0f5f6f79e56486055732bc",
-  "addr_iban": "AX76 E5PL 4DBR FYZD KY2R M7ZZ V3ME S2CX QNX6"
+  "vk": "d2a3a5fa363f2b17ca2c90eb7bde43bda4b34c9d14d13d841d687f29e95524d4"
+  "addr_hex": "f3ee3163a9be5a5c48fa90e302d6c106ae794150",
+  "addr_iban": "AX17 8RZD C27K Z3PF 2UH4 UDTS FXYB A4ZH USLS"
 }
 ```
 
@@ -171,7 +171,7 @@ VerifyKey | 32 bytes | The verify key of the message sender
 
 ```python
 {
-  "token": "BXAA AAAA AAAA AAAA AAAA AAAA AAAA AAAA AAAA",
+  "token": "BX63 AAAA AAAA AAAA AAAA AAAA AAAA AAAA AAAA",
   "value": "1000"
 }
 ```
@@ -189,7 +189,7 @@ Value | uint256_t | The number of tokens to mint
 ```python
 {
   "token": "1",
-  "dest": "AX76 E5PL 4DBR FYZD KY2R M7ZZ V3ME S2CX QNX6"
+  "dest": "AX17 8RZD C27K Z3PF 2UH4 UDTS FXYB A4ZH USLS",
   "value": "1000"
 }
 ```
@@ -228,7 +228,7 @@ spread_value | uint256_t | The spread value. If spread type is 2), the actual va
 
 ```python
 {
-  "contract_id": "BX76 E5PL 4DBR FYZD KY2R M7ZZ V3ME S2CX QNX6",
+  "contract_id": "BX90 E4RK QV4E YF6M XKCE 5ND8 L6VP 67FF ZBV3",
   "value": "1000",
   "band_limit": "5000"
 }
@@ -248,7 +248,7 @@ Band Limit | uint256_t | The maximum number of Band tokens the sender is willing
 
 ```python
 {
-  "contract_id": "BX76 E5PL 4DBR FYZD KY2R M7ZZ V3ME S2CX QNX6",
+  "contract_id": "BX90 E4RK QV4E YF6M XKCE 5ND8 L6VP 67FF ZBV3",
   "value": "1000",
   "band_limit": "5000"
 }
@@ -288,7 +288,7 @@ encode the response using base-64 encoding.
             "params": {
                 "msgid": "1",
                 "vk": "6ddb22994b551f4da5818e7a257d467e9af753348194f31dddc5f9aa489d3da1",
-                "token": "BXAA AAAA AAAA AAAA AAAA AAAA AAAA AAAA AAAA",
+                "token": "BX63 AAAA AAAA AAAA AAAA AAAA AAAA AAAA AAAA",
                 "value": "200"
             }
         }),
@@ -327,8 +327,8 @@ end.
         "data": HEX_ENCODE({
             "method": "balance",
             "params": {
-                "address": "AX76 E5PL 4DBR FYZD KY2R M7ZZ V3ME S2CX QNX6",
-                "token": "BXAA AAAA AAAA AAAA AAAA AAAA AAAA AAAA AAAA"
+                "address": "AX17 8RZD C27K Z3PF 2UH4 UDTS FXYB A4ZH USLS",
+                "token": "BX63 AAAA AAAA AAAA AAAA AAAA AAAA AAAA AAAA",
             }
         }),
     },
@@ -366,7 +366,7 @@ the given token id.
         "data": HEX_ENCODE({
             "method": "community_info",
             "params": {
-                "contract_id": "BX76 E5PL 4DBR FYZD KY2R M7ZZ V3ME S2CX QNX6"
+                "contract_id": "BX90 E4RK QV4E YF6M XKCE 5ND8 L6VP 67FF ZBV3",
             }
         }),
     },
